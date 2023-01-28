@@ -19,9 +19,6 @@ export const Room: React.FC<RoomProps> = props => {
 
     React.useEffect(() => {
         const websocket = new ReconnectingWebSocket('ws://' + process.env.REACT_APP_BASE_API_ENDPOINT + '/room', "", {debug:true})
-        websocket.onclose = (event: Events.CloseEvent) => {
-            console.log("closed")
-        }
         socketRef.current = websocket
 
         const onMessage = (event: MessageEvent<string>) => {
@@ -30,8 +27,8 @@ export const Room: React.FC<RoomProps> = props => {
         websocket.addEventListener('message', onMessage)
 
         return () => {
-            // websocket.close()
-            // websocket.removeEventListener('message', onMessage)
+            websocket.close()
+            websocket.removeEventListener('message', onMessage)
         }
     }, [])
 
