@@ -12,7 +12,6 @@ enum ErrorCode {
     join   = 2,
 }
 
-
 export const ToRoom: React.FC<ToRoomProps> = props => {
     const [roomID, setRoomID] = React.useState<RoomID>(0);
     const [errorMsg, setErrorMsg] = React.useState("");

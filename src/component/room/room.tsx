@@ -1,5 +1,4 @@
 import React from 'react'
-import ReconnectingWebSocket from 'reconnecting-websocket'
 import './room.css'
 import data from "../../data/infrastructure/data";
 
@@ -22,8 +21,6 @@ export const Room: React.FC<RoomProps> = props => {
     };
 
     const handleClickButton = (msg: string) => {
-
-        // socketRef.current?.send(JSON.stringify({Message: msg}))
     };
 
     return (
