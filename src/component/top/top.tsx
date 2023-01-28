@@ -28,14 +28,14 @@ class Top extends React.Component<{}, TopState> {
         data.checkInRoom()
             .then((response) => {
                 this.setState({
-                    playerCreated   : true,
-                    inRoom          : true,
+                    playerCreated : true,
+                    inRoom        : true,
                 });
-                console.log("In Room")
             })
             .catch((e: Error) => {
-                console.log("Not In Room")
-                console.log(e);
+                this.setState({
+                    inRoom : false,
+                });
             });
     }
 
@@ -48,7 +48,7 @@ class Top extends React.Component<{}, TopState> {
     render() {
         const newPlayer = this.state.playerCreated ? <></> : <NewPlayer onSuccessNewPlayer={() => this.onCreatePlayer()}></NewPlayer>
         const newRoom   = !this.state.playerCreated || this.state.inRoom ? <></> : <ToRoom onSuccessToRoom={() => this.checkInRoom()}></ToRoom>
-        const room      = this.state.inRoom ? <Room></Room> : <></>
+        const room      = this.state.inRoom ? <Room onLeaveRoom={() => this.checkInRoom()}></Room> : <></>
 
         return (
             <>

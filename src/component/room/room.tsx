@@ -1,10 +1,15 @@
 import React from 'react'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import './room.css'
+import data from "../../data/infrastructure/data";
 
 export type RoomID = number
 
-export const Room: React.FC = props => {
+type RoomProps = {
+    onLeaveRoom: () => void;
+}
+
+export const Room: React.FC<RoomProps> = props => {
     const [message, setMessage] = React.useState<string>()
     const socketRef = React.useRef<ReconnectingWebSocket>()
 
@@ -23,6 +28,16 @@ export const Room: React.FC = props => {
         }
     }, [])
 
+    const handleLeaveRoom = (event: React.MouseEvent<HTMLButtonElement>) => {
+        data.leaveRoom()
+            .then((response) => {
+                props.onLeaveRoom()
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+    };
+
     return (
         <div className={"situation"}>
             <span>メッセージ: {message}</span>
@@ -35,6 +50,8 @@ export const Room: React.FC = props => {
             >
                 送信
             </button>
+
+            <button type="button" onClick={handleLeaveRoom}>退室する</button>
         </div>
     );
 }

@@ -17,6 +17,10 @@ const joinRoom = (roomID: number) => {
     return axios.post(`/room/` + roomID);
 };
 
+const leaveRoom = () => {
+    return axios.post(`/room/leave`);
+};
+
 const checkInRoom = () => {
     return axios.get(`/room/in`);
 };
@@ -26,6 +30,7 @@ const Data = {
     createRoom,
     joinRoom,
     checkInRoom,
+    leaveRoom,
 };
 
 export default Data;
