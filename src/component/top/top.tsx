@@ -8,8 +8,6 @@ import {NewPlayer} from "../newPlayer/newPlayer";
 type TopState = {
     playerCreated   : boolean
     inRoom          : boolean
-    failedCreateRoom: boolean
-    failedJoinRoom  : boolean
 }
 
 class Top extends React.Component<{}, TopState> {
@@ -19,8 +17,6 @@ class Top extends React.Component<{}, TopState> {
         this.state = {
             playerCreated   : false,
             inRoom          : false,
-            failedCreateRoom: false,
-            failedJoinRoom  : false,
         };
     }
 
@@ -34,8 +30,6 @@ class Top extends React.Component<{}, TopState> {
                 this.setState({
                     playerCreated   : true,
                     inRoom          : true,
-                    failedCreateRoom: false,
-                    failedJoinRoom  : false,
                 });
                 console.log("In Room")
             })
@@ -51,21 +45,9 @@ class Top extends React.Component<{}, TopState> {
         });
     }
 
-    onFailCreateRoom() {
-        this.setState({
-            failedCreateRoom: true,
-        });
-    }
-
-    onFailJoinRoom() {
-        this.setState({
-            failedJoinRoom: true,
-        });
-    }
-
     render() {
         const newPlayer = this.state.playerCreated ? <></> : <NewPlayer onSuccessNewPlayer={() => this.onCreatePlayer()}></NewPlayer>
-        const newRoom   = !this.state.playerCreated || this.state.inRoom ? <></> : <ToRoom onSuccessToRoom={() => this.checkInRoom()} onFailCreateRoom={() => this.onFailCreateRoom()} onFailJoinRoom={() => this.onFailJoinRoom()}></ToRoom>
+        const newRoom   = !this.state.playerCreated || this.state.inRoom ? <></> : <ToRoom onSuccessToRoom={() => this.checkInRoom()}></ToRoom>
         const room      = this.state.inRoom ? <Room></Room> : <></>
 
         return (

@@ -5,12 +5,17 @@ import {RoomID} from "../room/room";
 
 type ToRoomProps = {
     onSuccessToRoom: () => void;
-    onFailCreateRoom: () => void;
-    onFailJoinRoom: () => void;
 }
+
+enum ErrorCode {
+    create = 1,
+    join   = 2,
+}
+
 
 export const ToRoom: React.FC<ToRoomProps> = props => {
     const [roomID, setRoomID] = React.useState<RoomID>(0);
+    const [errorMsg, setErrorMsg] = React.useState("");
 
     const handleChangeRoomID = (event: React.ChangeEvent<HTMLInputElement>) => {
         const roomID: RoomID = +event.target.value
@@ -25,7 +30,7 @@ export const ToRoom: React.FC<ToRoomProps> = props => {
                 props.onSuccessToRoom()
             })
             .catch((e: Error) => {
-                props.onFailCreateRoom()
+                onError(ErrorCode.create);
                 console.log(e);
             });
     };
@@ -38,13 +43,26 @@ export const ToRoom: React.FC<ToRoomProps> = props => {
                 props.onSuccessToRoom()
             })
             .catch((e: Error) => {
-                props.onFailJoinRoom()
+                onError(ErrorCode.join);
                 console.log(e);
             });
     };
 
+    const onError = (err: ErrorCode) => {
+        switch(err){
+            case ErrorCode.create:
+                setErrorMsg("部屋の作成に失敗しました。");
+                return
+            case ErrorCode.join:
+                setErrorMsg("部屋が存在しません。");
+                return
+            default:   return <></>;
+        }
+    };
+
     return (
         <>
+            <div>{errorMsg}</div>
             <form onSubmit={handleCreateRoom}>
                 <input type="submit" value="部屋を作成する" />
             </form>
