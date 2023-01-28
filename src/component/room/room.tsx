@@ -4,15 +4,7 @@ import './room.css'
 
 export type RoomID = number
 
-export type RoomDetail = {
-    roomID: RoomID;
-}
-
-type RoomProps = {
-    detail: RoomDetail
-}
-
-export const Room: React.FC<RoomProps> = props => {
+export const Room: React.FC = props => {
     const [message, setMessage] = React.useState<string>()
     const socketRef = React.useRef<ReconnectingWebSocket>()
 
@@ -33,7 +25,6 @@ export const Room: React.FC<RoomProps> = props => {
 
     return (
         <div className={"situation"}>
-            <span>部屋: {props.detail.roomID}</span>
             <span>メッセージ: {message}</span>
             <button
                 type="button"

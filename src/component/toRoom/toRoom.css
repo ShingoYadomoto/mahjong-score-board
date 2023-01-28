@@ -1,0 +1,8 @@
+.situation {
+    font-weight: bold;
+    color: white;
+}
+
+.situation img {
+    max-height: 8vh;
+}

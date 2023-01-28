@@ -1,54 +1,77 @@
 import React from 'react'
-import {Room, RoomDetail} from "../room/room";
+import {Room} from "../room/room";
 import data from "../../data/infrastructure/data";
 import './top.css'
+import {ToRoom} from "../toRoom/toRoom";
+import {NewPlayer} from "../newPlayer/newPlayer";
 
 type TopState = {
-    room: RoomDetail
-    name: string
-    playerCreated: boolean
+    playerCreated   : boolean
+    inRoom          : boolean
+    failedCreateRoom: boolean
+    failedJoinRoom  : boolean
 }
 
 class Top extends React.Component<{}, TopState> {
     constructor(props: {}) {
         super(props);
 
-        const roomDetail: RoomDetail = {
-            roomID: 2,
-        }
-
         this.state = {
-            room: roomDetail,
-            name: "test user",
-            playerCreated: false,
+            playerCreated   : false,
+            inRoom          : false,
+            failedCreateRoom: false,
+            failedJoinRoom  : false,
         };
     }
 
     componentDidMount() {
-        this.createPlayer()
+        this.checkInRoom()
     }
 
-    createPlayer() {
-        if (this.state.playerCreated) return;
-
-        data.createPlayer(this.state.name)
+    checkInRoom() {
+        data.checkInRoom()
             .then((response) => {
                 this.setState({
-                    playerCreated: true,
-                })
-                console.log("success create player");
+                    playerCreated   : true,
+                    inRoom          : true,
+                    failedCreateRoom: false,
+                    failedJoinRoom  : false,
+                });
+                console.log("In Room")
             })
             .catch((e: Error) => {
+                console.log("Not In Room")
                 console.log(e);
             });
     }
 
+    onCreatePlayer() {
+        this.setState({
+            playerCreated: true,
+        });
+    }
+
+    onFailCreateRoom() {
+        this.setState({
+            failedCreateRoom: true,
+        });
+    }
+
+    onFailJoinRoom() {
+        this.setState({
+            failedJoinRoom: true,
+        });
+    }
 
     render() {
-        const room = this.state.playerCreated ? <Room detail={this.state.room}></Room> : <></>
+        const newPlayer = this.state.playerCreated ? <></> : <NewPlayer onSuccessNewPlayer={() => this.onCreatePlayer()}></NewPlayer>
+        const newRoom   = !this.state.playerCreated || this.state.inRoom ? <></> : <ToRoom onSuccessToRoom={() => this.checkInRoom()} onFailCreateRoom={() => this.onFailCreateRoom()} onFailJoinRoom={() => this.onFailJoinRoom()}></ToRoom>
+        const room      = this.state.inRoom ? <Room></Room> : <></>
 
         return (
             <>
+                {newPlayer}
+                {newRoom}
                 {room}
             </>
         );
