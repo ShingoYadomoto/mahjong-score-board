@@ -38,18 +38,25 @@ export const Room: React.FC<RoomProps> = props => {
             });
     };
 
+    const handleClickButton = (msg: string) => {
+        if (msg === "流局") {
+            data.next()
+                .then((response) => {
+                })
+                .catch((e: Error) => {
+                    console.log(e);
+                });
+        }
+
+        // socketRef.current?.send(JSON.stringify({Message: msg}))
+    };
+
     return (
         <div className={"situation"}>
-            <span>メッセージ: {message}</span>
-            <button
-                type="button"
-                onClick={() => {
-                    // #4.WebSocketでメッセージを送信する場合は、イベントハンドラ内でsendメソッドを実行
-                    socketRef.current?.send(JSON.stringify({Message: '送信メッセージ'}))
-                }}
-            >
-                送信
-            </button>
+            <div>メッセージ: {message}</div>
+            <button type="button" onClick={() => handleClickButton("ロン")}>ロン</button>
+            <button type="button" onClick={() => handleClickButton("ツモ")}>ツモ</button>
+            <button type="button" onClick={() => handleClickButton("流局")}>流局</button>
 
             <button type="button" onClick={handleLeaveRoom}>退室する</button>
         </div>

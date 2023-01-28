@@ -25,12 +25,17 @@ const checkInRoom = () => {
     return axios.get(`/room/in`);
 };
 
+const next = () => {
+    return axios.post(`/room/next`);
+};
+
 const Data = {
     createPlayer,
     createRoom,
     joinRoom,
-    checkInRoom,
     leaveRoom,
+    checkInRoom,
+    next,
 };
 
 export default Data;
