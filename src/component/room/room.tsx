@@ -1,5 +1,7 @@
 import React from 'react'
+import ReconnectingWebSocket from 'reconnecting-websocket'
 import './room.css'
+import * as Events from "reconnecting-websocket/events";
 
 export type RoomID = number
 
@@ -13,24 +15,23 @@ type RoomProps = {
 
 export const Room: React.FC<RoomProps> = props => {
     const [message, setMessage] = React.useState<string>()
-    const socketRef = React.useRef<WebSocket>()
+    const socketRef = React.useRef<ReconnectingWebSocket>()
 
-    // #0.WebSocket関連の処理は副作用なので、useEffect内で実装
     React.useEffect(() => {
-        // #1.WebSocketオブジェクトを生成しサーバとの接続を開始
-        const websocket = new WebSocket('ws://localhost:5000')
+        const websocket = new ReconnectingWebSocket('ws://' + process.env.REACT_APP_BASE_API_ENDPOINT + '/room', "", {debug:true})
+        websocket.onclose = (event: Events.CloseEvent) => {
+            console.log("closed")
+        }
         socketRef.current = websocket
 
-        // #2.メッセージ受信時のイベントハンドラを設定
         const onMessage = (event: MessageEvent<string>) => {
             setMessage(event.data)
         }
         websocket.addEventListener('message', onMessage)
 
-        // #3.useEffectのクリーンアップの中で、WebSocketのクローズ処理を実行
         return () => {
-            websocket.close()
-            websocket.removeEventListener('message', onMessage)
+            // websocket.close()
+            // websocket.removeEventListener('message', onMessage)
         }
     }, [])
 
@@ -42,7 +43,7 @@ export const Room: React.FC<RoomProps> = props => {
                 type="button"
                 onClick={() => {
                     // #4.WebSocketでメッセージを送信する場合は、イベントハンドラ内でsendメソッドを実行
-                    socketRef.current?.send('送信メッセージ')
+                    socketRef.current?.send(JSON.stringify({Message: '送信メッセージ'}))
                 }}
             >
                 送信
