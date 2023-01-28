@@ -1,13 +1,13 @@
 import React from 'react'
-import {Room} from "../room/room";
+import {Room, RoomID} from "../room/room";
 import data from "../../data/infrastructure/data";
 import './top.css'
 import {ToRoom} from "../toRoom/toRoom";
-import {NewPlayer} from "../newPlayer/newPlayer";
+import {NewPlayer, PlayerID} from "../newPlayer/newPlayer";
 
 type TopState = {
-    playerCreated   : boolean
-    inRoom          : boolean
+    roomID  : RoomID   | undefined
+    playerID: PlayerID | undefined
 }
 
 class Top extends React.Component<{}, TopState> {
@@ -15,8 +15,8 @@ class Top extends React.Component<{}, TopState> {
         super(props);
 
         this.state = {
-            playerCreated   : false,
-            inRoom          : false,
+            roomID   : undefined,
+            playerID : undefined,
         };
     }
 
@@ -25,30 +25,35 @@ class Top extends React.Component<{}, TopState> {
     }
 
     checkInRoom() {
-        data.checkInRoom()
+        data.getRoom()
             .then((response) => {
                 this.setState({
-                    playerCreated : true,
-                    inRoom        : true,
+                    roomID : response.data.roomID,
                 });
             })
             .catch((e: Error) => {
                 this.setState({
-                    inRoom : false,
+                    roomID : undefined,
+                });
+            });
+
+        data.getPlayer()
+            .then((response) => {
+                this.setState({
+                    playerID : response.data.playerID,
+                });
+            })
+            .catch((e: Error) => {
+                this.setState({
+                    playerID : undefined,
                 });
             });
     }
 
-    onCreatePlayer() {
-        this.setState({
-            playerCreated: true,
-        });
-    }
-
     render() {
-        const newPlayer = this.state.playerCreated ? <></> : <NewPlayer onSuccessNewPlayer={() => this.onCreatePlayer()}></NewPlayer>
-        const newRoom   = !this.state.playerCreated || this.state.inRoom ? <></> : <ToRoom onSuccessToRoom={() => this.checkInRoom()}></ToRoom>
-        const room      = this.state.inRoom ? <Room onLeaveRoom={() => this.checkInRoom()}></Room> : <></>
+        const newPlayer = this.state.playerID ? <></> : <NewPlayer onSuccessNewPlayer={() => this.checkInRoom()}></NewPlayer>
+        const newRoom   = !this.state.playerID || this.state.roomID ? <></> : <ToRoom onSuccessToRoom={() => this.checkInRoom()}></ToRoom>
+        const room      = this.state.roomID ? <Room RoomID={this.state.roomID} onLeaveRoom={() => this.checkInRoom()}></Room> : <></>
 
         return (
             <>

@@ -2,8 +2,6 @@ import React from 'react'
 import data from "../../data/infrastructure/data";
 import './newPlayer.css'
 
-export type PlayerID = number
-
 type NewPlayerProps = {
     onSuccessNewPlayer: () => void;
 }
