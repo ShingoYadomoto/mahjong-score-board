@@ -1,12 +1,12 @@
 import React from 'react'
 import {Room, RoomID} from "../room/room";
-import data from "../../data/infrastructure/data";
+import data, {Field, Player, IRoomDetail} from "../../data/infrastructure/data";
 import './top.css'
 import {ToRoom} from "../toRoom/toRoom";
 import {NewPlayer, PlayerID} from "../newPlayer/newPlayer";
 
 type TopState = {
-    roomID  : RoomID   | undefined
+    room    : IRoomDetail | undefined
     playerID: PlayerID | undefined
 }
 
@@ -15,7 +15,7 @@ class Top extends React.Component<{}, TopState> {
         super(props);
 
         this.state = {
-            roomID   : undefined,
+            room     : undefined,
             playerID : undefined,
         };
     }
@@ -28,12 +28,12 @@ class Top extends React.Component<{}, TopState> {
         data.getRoom()
             .then((response) => {
                 this.setState({
-                    roomID : response.data.roomID,
+                    room : response.data,
                 });
             })
             .catch((e: Error) => {
                 this.setState({
-                    roomID : undefined,
+                    room : undefined,
                 });
             });
 
@@ -52,8 +52,8 @@ class Top extends React.Component<{}, TopState> {
 
     render() {
         const newPlayer = this.state.playerID ? <></> : <NewPlayer onSuccessNewPlayer={() => this.checkInRoom()}></NewPlayer>
-        const newRoom   = !this.state.playerID || this.state.roomID ? <></> : <ToRoom onSuccessToRoom={() => this.checkInRoom()}></ToRoom>
-        const room      = this.state.roomID ? <Room RoomID={this.state.roomID} onLeaveRoom={() => this.checkInRoom()}></Room> : <></>
+        const newRoom   = !this.state.playerID || this.state.room ? <></> : <ToRoom onSuccessToRoom={() => this.checkInRoom()}></ToRoom>
+        const room      = this.state.room ? <Room Room={this.state.room} onLeaveRoom={() => this.checkInRoom()}></Room> : <></>
 
         return (
             <>

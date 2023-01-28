@@ -10,6 +10,33 @@ export interface ICreateRoomData {
     roomID: RoomID,
 }
 
+export enum FanType {
+    ton = 1,
+    nan = 2,
+    sha = 3,
+    pei = 4,
+}
+
+export type Field = {
+    fan    : FanType
+    stack  : number
+    deposit: number
+}
+
+export type Player = {
+    id      : PlayerID
+    fan     : FanType
+    point   : number
+    isRiichi: boolean
+}
+
+export interface IRoomDetail {
+    roomID : RoomID
+    version: string
+    field  : Field
+    players: Player[]
+}
+
 const createPlayer = (name: string) => {
     return axios.post<ICreatePlayerData>(`/players`, {"name": name});
 };
@@ -22,25 +49,26 @@ const createRoom = () => {
     return axios.post<ICreateRoomData>(`/rooms`);
 };
 
-const joinRoom = (roomID: number) => {
+const getRoom = () => {
+    return axios.get<IRoomDetail>(`/room`);
+};
+
+const joinRoom = (roomID: RoomID) => {
     return axios.post(`/rooms/` + roomID + `/in`);
 };
 
-const leaveRoom = (roomID: number) => {
+const leaveRoom = (roomID: RoomID) => {
     return axios.post(`/rooms/` + roomID + `/out`);
 };
 
-const getRoom = () => {
-    return axios.get<ICreateRoomData>(`/room`);
-};
 
 const Data = {
     createPlayer,
     getPlayer,
     createRoom,
+    getRoom,
     joinRoom,
     leaveRoom,
-    getRoom,
 };
 
 export default Data;

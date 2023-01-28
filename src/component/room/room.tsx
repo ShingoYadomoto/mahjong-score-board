@@ -1,17 +1,17 @@
 import React from 'react'
 import './room.css'
-import data from "../../data/infrastructure/data";
+import data, {IRoomDetail} from "../../data/infrastructure/data";
 
 export type RoomID = number
 
 type RoomProps = {
-    RoomID:      RoomID
+    Room       : IRoomDetail
     onLeaveRoom: () => void;
 }
 
 export const Room: React.FC<RoomProps> = props => {
     const handleLeaveRoom = (event: React.MouseEvent<HTMLButtonElement>) => {
-        data.leaveRoom(props.RoomID)
+        data.leaveRoom(props.Room.roomID)
             .then((response) => {
                 props.onLeaveRoom()
             })
