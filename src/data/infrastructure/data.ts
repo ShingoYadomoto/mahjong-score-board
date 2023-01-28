@@ -22,17 +22,16 @@ export interface IAnswerData {
     comment: string,
 }
 
-// const getQuestion = (excludeID: QuestionID[]) => {
-//     return axios.get<IQuestionData>(`/question`, { params: { exclude_id: JSON.stringify(excludeID) } });
-// };
-//
+const createPlayer = (name: string) => {
+    return axios.post(`/player`, {"name": name});
+};
+
 // const getAnswer = (id: QuestionID, data: IAnswerRequest) => {
 //     return axios.get<IAnswerData>(`/answer`, { params: { question_id: id, answer: JSON.stringify(data) } });
 // };
 
 const Data = {
-    // getQuestion,
-    // getAnswer,
+    createPlayer,
 };
 
 export default Data;

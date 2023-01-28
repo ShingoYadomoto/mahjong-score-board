@@ -1,7 +1,6 @@
 import React from 'react'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import './room.css'
-import * as Events from "reconnecting-websocket/events";
 
 export type RoomID = number
 
@@ -18,7 +17,7 @@ export const Room: React.FC<RoomProps> = props => {
     const socketRef = React.useRef<ReconnectingWebSocket>()
 
     React.useEffect(() => {
-        const websocket = new ReconnectingWebSocket('ws://' + process.env.REACT_APP_BASE_API_ENDPOINT + '/room', "", {debug:true})
+        const websocket = new ReconnectingWebSocket('ws://' + process.env.REACT_APP_BASE_API_HOST + '/room')
         socketRef.current = websocket
 
         const onMessage = (event: MessageEvent<string>) => {
