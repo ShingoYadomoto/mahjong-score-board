@@ -1,0 +1,14 @@
+.hand {
+  display: flex;
+  align-items: flex-end;
+}
+
+.hand > .pai {
+  cursor: pointer;
+  max-width: 7vw;
+}
+
+.hand > .pai:hover {
+  position:relative;
+  top: -20px;
+}

@@ -1,0 +1,44 @@
+.situation-container {
+  padding-top: 20vh;
+  min-height: 10vh;
+  font-size: calc(10px + 2vmin);
+  display: flex;
+  justify-content: center;
+}
+
+.hand-container {
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.answer-container {
+  min-height: 10vh;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.answer-container span {
+  margin-right: 20px;
+  display: flex;
+}
+
+.answer-container span:last-child {
+  margin-right: 0;
+}
+
+.button-container {
+  min-height: 10vh;
+  display: flex;
+  justify-content: center;
+}
+
+.button-container button {
+  margin-right: 20px;
+}

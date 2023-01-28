@@ -1,0 +1,25 @@
+.answer {
+  display: flex;
+  font-weight: bold;
+}
+
+.answer img.correctOrNot {
+  width: 90px;
+}
+
+.answer .pai {
+  max-width: 20vw;
+}
+
+.commentary {
+  margin-top: 4vh;
+  font-family: monospace;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 10px 20px;
+}
+
+.commentary img.commentaryImg {
+  height: 50px;
+  margin-right: 10px;
+}
