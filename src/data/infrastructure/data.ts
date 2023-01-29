@@ -31,9 +31,10 @@ export type Player = {
 }
 
 export interface IRoomDetail {
-    roomID : RoomID
-    field  : Field
-    players: Player[]
+    roomID         : RoomID
+    field          : Field
+    players        : Player[]
+    updatedUnixTime: number
 }
 
 const createPlayer = (name: string) => {

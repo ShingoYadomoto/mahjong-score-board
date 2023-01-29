@@ -55,8 +55,11 @@ class Top extends React.Component<{}, TopState> {
         const newRoom   = !this.state.playerID || this.state.room ? <></> : <ToRoom onSuccessToRoom={() => this.checkInRoom()}></ToRoom>
         const room      = this.state.room ? <Room Room={this.state.room} onLeaveRoom={() => this.checkInRoom()}></Room> : <></>
 
+        const str = JSON.stringify(this.state.room)
         return (
             <>
+                現在: {str}
+
                 {newPlayer}
                 {newRoom}
                 {room}
