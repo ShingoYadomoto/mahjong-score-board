@@ -32,7 +32,6 @@ export type Player = {
 
 export interface IRoomDetail {
     roomID : RoomID
-    version: string
     field  : Field
     players: Player[]
 }
